@@ -11,6 +11,7 @@ struct Course {
     string code;
     string semester;
     int mark;
+    float weight;
 };
 
 // Using 'struct' strategy to deal with many parameters that may/may not be defined
@@ -49,11 +50,10 @@ int read_from_file(char * file_name, vector<Course> &courses) {
         }
 
         int mark = stoi(line.substr(course_code_len + 1, mark_len));
-        string semester = line.substr(course_code_len + mark_len + 2, 3);
+        float weight = stof(line.substr(course_code_len + mark_len + 2, 4)); // Assuming a fixed length of 4 characters for weights
+        string semester = line.substr(course_code_len + mark_len + 7, 3);
 
-        cout << course_code << " " << mark << " " << semester << "\n";
-
-        courses.push_back({course_code, semester, mark});
+        courses.push_back({course_code, semester, mark, weight});
     }
 
     // Close the file
@@ -111,20 +111,20 @@ bool is_course_valid(Course course, Course_Conditions conditions) {
 
 // Computes the GPA based on conditions provided
 float compute_gpa(vector<Course> &courses, Course_Conditions conditions) {
-    float cgpa = 0;
+    float gpa = 0;
     int n_courses = courses.size();
-    int n_valid_courses = 0; // courses that validate the specified conditions
+    float total_weightage = 0; // courses that validate the specified conditions
 
     for (int i = 0; i < n_courses; ++i) {
         if (is_course_valid(courses[i], conditions)) {
-            cgpa += courses[i].mark;
-            n_valid_courses += 1;
+            gpa += courses[i].mark * courses[i].weight;
+            total_weightage += courses[i].weight;
         }
     }
 
-    cgpa /= n_valid_courses;
+    gpa /= total_weightage;
     
-    return cgpa;
+    return gpa;
 }
 
 // Computes the GPA for a specific course subject type (i.e. Mathematics)
@@ -149,7 +149,7 @@ void run_menu_options(vector<Course> &courses) {
     string input;
 
     while (strcmp(input.c_str(), "q") != 0) {
-        cout << "Menu Options: s (search), c (compute cGPA), cs (compute cGPA by subject), ce (compute cGPA by semester), q (quit)\n";
+        cout << "Menu Options: s (search), c (compute cGPA), cs (compute GPA by subject), ce (compute GPA by semester), q (quit)\n";
         cout << ">> ";
         cin >> input;
 
