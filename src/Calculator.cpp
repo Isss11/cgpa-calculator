@@ -59,10 +59,11 @@ int Calculator::get_grade_by_course_code(string course_code) {
 
     // Iterates until a mark is found or until all the courses have been iterated through
     while (i < courses.size() && mark < 0) {
-        cout << courses[i].code.c_str();
-        if (strcmp(courses[i].code.c_str(), course_code.c_str()) == 0) {
+        if (courses[i].code.compare(course_code) == 0) {
             mark = courses[i].mark;
         }
+
+        i += 1;
     }
 
     return mark;

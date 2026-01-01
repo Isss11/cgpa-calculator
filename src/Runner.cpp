@@ -16,15 +16,13 @@ void Runner::run(Calculator calculator) {
 
             cout << "Enter a course code (i.e. CIS*1300): ";
             cin >> course_code;
-            cout << "\n";
-
             course_mark = calculator.get_grade_by_course_code(course_code);
 
             // Input validation
             if (course_mark < 0) {
                 cout << "The course with the code '" << course_code << "', does not exist. No mark was retrieved.\n";
             } else {
-                cout << course_mark << "%\n";
+                cout << course_code << " is " << course_mark << "%.\n";
             }
         } else if (strcmp(input.c_str(), "c") == 0) {
             float cgpa;
