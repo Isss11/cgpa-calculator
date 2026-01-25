@@ -1,9 +1,4 @@
 #include "../include/header.h"
-/*
-TODO:
-2. Turn the calculator functionality into a class.
-3. Create instances of the Courses and the Calculator in a runner file, and call them from there.
-*/
 
 int Calculator::load_courses_from_file(char * file_name) {
     string line;
